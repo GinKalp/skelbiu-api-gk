@@ -8,7 +8,7 @@ const dbConfig = {
     database: process.env.DB_DB,
 };
 
-const serverPort = process.env.SERVER_PORT
+const serverPort = process.env.PORT
 
 module.exports = {
     dbConfig,
