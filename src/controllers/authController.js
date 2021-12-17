@@ -17,16 +17,16 @@ module.exports = {
     },
 
     register: async (req, res) =>{
-        const {username, password} = req.body
-        const sql = `INSERT INTO users(username, password)
-                        VALUES(?,?)`
+        const {username, password, town, phone} = req.body
+        const sql = `INSERT INTO users(username, password, town, phone)
+                        VALUES(?,?,?,?)`
 
         const hashedPass = hashValue(password)
-        const dbData = await dbAction(sql, [username, hashedPass])
+        const dbData = await dbAction(sql, [username, hashedPass, town, phone])
 
-        if (!dbData.isSuccess && dbData.error === `Duplicate entry '${username}' for key 'users.username_UNIQUE'`)
+        if (!dbData.isSuccess && dbData.error === `Duplicate entry '${username}' for key 'username'`)
             return dbFail(res, 'username already exists', 401)
-
+        if (!dbData.isSuccess) return dbFail(res, 'error registering user')
         if (dbData.result.affectedRows === 1){
             dbSuccess(res, 'user registered')
         } else {

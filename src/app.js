@@ -2,8 +2,9 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan');
 const cors = require('cors')
+const {serverPort} = require('./dbConfig')
 
-const PORT = process.env.PORT || 4000
+const PORT = serverPort || 4000
 
 const authRouter = require('./routes/authRouter')
 const listingsRouter = require('./routes/listingsRouter')

@@ -11,6 +11,8 @@ router.get('/', authenticateToken, listingsController.getAllListings);
 router.get('/by-user', authenticateToken, listingsController.getListingsByUser);
 // POST /listings/add-new add new listing
 router.post('/add-new', authenticateToken,  imageUploader(), validateListing, listingsController.addNewListing);
+// POST /listings/update/:id update listing by listing id
+router.post('/update/:id', authenticateToken,  imageUploader(), validateListing, listingsController.updateListing);
 
 
 module.exports = router;

@@ -33,7 +33,7 @@ function dbSuccessResultWithToken(dbData) {
         userId: dbData.result[0].id
     }
 
-    const token = jwt.sign(userToBeEncrypted, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '10h'})
+    const token = jwt.sign(userToBeEncrypted, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
     return {username: userToBeEncrypted.username, userId: userToBeEncrypted.userId, token}
 }
 
