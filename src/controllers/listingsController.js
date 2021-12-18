@@ -17,7 +17,11 @@ module.exports = {
         const authHeader = req.headers.authorization;
 
         if (authHeader.split(' ')[1] === 'null'){
-            const sql = `SELECT * FROM listings`
+            const sql = `SELECT l.id, l.category_id, l.body, l.image, l.price, l.title, l.user_id, u.username, u.town, c.name as cat_name FROM listings as l
+                        LEFT JOIN users as u 
+                        ON l.user_id = u.id
+                        LEFT JOIN categories as c 
+                        ON l.category_id = c.id`
 
             const dbData = await dbAction(sql)
             if (!dbData.isSuccess) return dbFail(res, 'error getting listings')
@@ -27,9 +31,13 @@ module.exports = {
 
         const userId = req.userId
 
-        const sql = `SELECT l.id, l.category_id, l.image, l.price, l.title, l.user_id, f.user_id as fav_user FROM listings as l
+        const sql = `SELECT l.id, l.category_id, l.body, l.image, l.price, l.title, l.user_id, f.user_id as fav_user, u.username, u.town, c.name as cat_name FROM listings as l
                         LEFT JOIN favorites as f 
-                        ON l.id = f.listing_id && f.user_id = ?`
+                        ON l.id = f.listing_id && f.user_id = ?
+                        LEFT JOIN users as u 
+                        ON l.user_id = u.id
+                        LEFT JOIN categories as c 
+                        ON l.category_id = c.id`
 
         const dbData = await dbAction(sql, [userId])
 
@@ -39,7 +47,11 @@ module.exports = {
     },
     getListingsByUser: async (req, res) =>{
         const id = req.userId
-        const sql = `SELECT * FROM listings
+        const sql = `SELECT l.id, l.category_id, l.body, l.image, l.price, l.title, l.user_id, u.username, u.town, c.name as cat_name FROM listings as l
+                        LEFT JOIN users as u 
+                        ON l.user_id = u.id
+                        LEFT JOIN categories as c 
+                        ON l.category_id = c.id
                         WHERE user_id = ?`
         const dbData = await dbAction(sql, [id])
         if (!dbData.isSuccess) return dbFail(res, 'error getting listings')

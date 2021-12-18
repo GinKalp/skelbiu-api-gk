@@ -4,7 +4,7 @@ const favoritesController = require('../controllers/favoritesController');
 const {authenticateToken} = require("../helpers/jwtHelper");
 
 // get /favorites/ favorite or remove an item
-router.get('/:listingId',  authenticateToken,favoritesController.modifyFavorite);
+router.get('/:listingId',  authenticateToken, favoritesController.modifyFavorite);
 
 
 

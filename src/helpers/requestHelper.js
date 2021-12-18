@@ -12,7 +12,7 @@ async function dbAction(sql, valuesArr = []){
         // }
         return {isSuccess: true, result}
     } catch (error) {
-        console.log('/ got error ', error.message);
+        console.log('/ got error ', error);
         return {isSuccess: false, error: error.message}
     }
 }
