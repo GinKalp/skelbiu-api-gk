@@ -63,4 +63,19 @@ module.exports = {
         if (!dbData.isSuccess) return dbFail(res, 'error adding listing')
         dbSuccess(res, 'new listing added')
     },
+    deleteListing: async (req, res) =>{
+        const {id} = req.params
+        const userId = req.userId
+
+        const sql = `DELETE FROM listings
+                        WHERE id = ? && user_id = ?`
+        const dbData = await dbAction(sql, [id, userId])
+
+        if (!dbData.isSuccess) return dbFail(res, 'error deleting listing')
+        if (dbData.result.affectedRows === 1){
+            dbSuccess(res, 'listing deleted')
+        } else {
+            dbFail(res, 'listings not found')
+        }
+    }
 }

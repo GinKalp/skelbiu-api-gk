@@ -13,6 +13,8 @@ router.get('/by-user', authenticateToken, listingsController.getListingsByUser);
 router.post('/add-new', authenticateToken,  imageUploader(), validateListing, listingsController.addNewListing);
 // POST /listings/update/:id update listing by listing id
 router.post('/update/:id', authenticateToken,  imageUploader(), validateListing, listingsController.updateListing);
+// DELETE /listings/delete/:id delete listing by listing id
+router.delete('/delete/:id', authenticateToken,  listingsController.deleteListing);
 
 
 module.exports = router;
