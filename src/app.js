@@ -23,6 +23,9 @@ app.use('/favorites', favoritesRouter)
 app.listen(PORT, () => {
     console.log(`Running on port: ${PORT}`)
 })
+app.get('/', (req, res) => {
+    res.send('Hello express')
+})
 
 app.all('*', (req, res) =>{
     res.status(404).send('Page not found')
