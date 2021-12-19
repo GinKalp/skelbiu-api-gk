@@ -8,6 +8,7 @@ module.exports = {
         const sql = `SELECT * FROM users WHERE username = ?`
         const dbData = await dbAction(sql,  [username])
 
+        if (dbData.result.length === 0) return dbFail(res, 'User not found')
         if (!verifyHash(password, dbData.result[0].password)){
 
             return dbFail(res, "Incorrect username or password", 400)
