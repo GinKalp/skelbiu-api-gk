@@ -72,8 +72,8 @@ module.exports = {
         delete bodyArr.image
 
         const dbData = await dbAction(sql, [...Object.values(bodyArr), userId, file?.filename ? file?.filename : image, id])
-        if (!dbData.isSuccess) return dbFail(res, 'error adding listing')
-        dbSuccess(res, 'new listing added')
+        if (!dbData.isSuccess) return dbFail(res, 'error updating listing')
+        dbSuccess(res, 'listing updated')
     },
     deleteListing: async (req, res) =>{
         const {id} = req.params
@@ -89,5 +89,13 @@ module.exports = {
         } else {
             dbFail(res, 'listings not found')
         }
-    }
+    },
+    getCategories: async (req, res) =>{
+        const sql = `SELECT * FROM categories`
+        const dbData = await dbAction(sql)
+
+        if (!dbData.isSuccess) return dbFail(res, 'error getting categories')
+        if (dbData.result.length === 0) return dbFail(res, 'error getting categories', 404)
+        dbSuccess(res, 'got categories', dbData.result)
+    },
 }

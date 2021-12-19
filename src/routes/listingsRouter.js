@@ -15,6 +15,7 @@ router.post('/add-new', authenticateToken,  imageUploader(), validateListing, li
 router.post('/update/:id', authenticateToken,  imageUploader(), validateListing, listingsController.updateListing);
 // DELETE /listings/delete/:id delete listing by listing id
 router.delete('/delete/:id', authenticateToken,  listingsController.deleteListing);
-
+// GET /listings/categories get all listings
+router.get('/categories', listingsController.getCategories);
 
 module.exports = router;
