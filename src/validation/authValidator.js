@@ -11,7 +11,9 @@ async function validateRegister(req, res, next){
             .required()
             .messages({ 'any.only': 'passwords must match' }),
         town: Joi.string().required(),
-        phone: Joi.string().min(9).required(),
+        phone: Joi.string().regex(/(86|\+3706)\d{7}(?!.)/)
+            .message("phone number must be valid")
+            .required(),
 
     })
     validTryCatch(req, res, next, schema);
