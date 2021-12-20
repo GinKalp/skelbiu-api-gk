@@ -1,6 +1,7 @@
 async function validTryCatch(req, res, next, schema) {
     try {
-        const value = await schema.validateAsync(req.body, {abortEarly: false})
+        console.log(req.body)
+        await schema.validateAsync(req.body, {abortEarly: false});
         next();
     } catch (err) {
         console.log(err.message);

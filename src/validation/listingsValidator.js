@@ -6,8 +6,8 @@ async function validateListing(req, res, next){
         title: Joi.string().min(2).max(25).required(),
         body: Joi.string().min(2).required(),
         price: Joi.number().required(),
+        image: Joi.string().allow(""),
         category_id: Joi.number().required(),
-        image: Joi.string()
     })
     validTryCatch(req, res, next, schema);
 }

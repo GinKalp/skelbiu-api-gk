@@ -1,18 +1,6 @@
 const {dbSuccess, dbAction, dbFail} = require("../helpers/requestHelper");
 
 module.exports = {
-    addNewListing: async (req, res) =>{
-        const userId = req.userId
-
-        const {title, body, price, category_id} = req.body
-        const {filename} = req.file
-        const sql = `INSERT INTO listings(title, body, price, category_id, user_id, image)
-                            VALUES(?,?,?,?,?,?)`
-        console.log(req.body)
-        const dbData = await dbAction(sql, [...Object.values(req.body), userId, filename])
-        if (!dbData.isSuccess) return dbFail(res, 'error adding listing')
-        dbSuccess(res, 'new listing added')
-    },
     getAllListings: async (req, res) =>{
         const authHeader = req.headers.authorization;
 
@@ -57,6 +45,34 @@ module.exports = {
         if (!dbData.isSuccess) return dbFail(res, 'error getting listings')
         if (!dbData.result) return dbFail(res, 'no listings found')
         dbSuccess(res, 'got listings', dbData.result)
+    },
+    addNewListing: async (req, res) =>{
+        const userId = req.userId
+
+        const {title, body, price, category_id} = req.body
+        const file = req.file
+        console.log(file)
+        let sql
+        let dbData
+        if (!file){
+            // if sent without image
+            sql = `INSERT INTO listings(title, body, price, category_id, image, user_id)
+                            VALUES(?,?,?,?,?,?)`
+            console.log(req.body)
+            const body = {...req.body, image: 'dummy-image.jpg'}
+
+            dbData = await dbAction(sql, [...Object.values(body), userId])
+
+        } else {
+            // if sent with image
+            sql = `INSERT INTO listings(title, body, price, category_id, user_id, image)
+                            VALUES(?,?,?,?,?,?)`
+            console.log(req.body)
+            dbData = await dbAction(sql, [...Object.values(req.body), userId, file?.filename ])
+        }
+
+        if (!dbData.isSuccess) return dbFail(res, 'error adding listing')
+        dbSuccess(res, 'new listing added')
     },
     updateListing: async (req, res) =>{
         const {id} = req.params
